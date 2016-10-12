@@ -4,4 +4,4 @@ struct OBJETO {
   float radio;
   struct OBJETO *sig;
 };
- // comment
+ // comment prueba
