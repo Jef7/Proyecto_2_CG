@@ -150,15 +150,11 @@ long double interseccionEsfera(struct ESFERA *e){
 	long double b,c,dis,t,t1,t2;
 	b = 2*(vDir.X * (ojo.X - e->centro.Xw) + vDir.Y * (ojo.Y - e->centro.Yw) + vDir.Z * (ojo.Z - e->centro.Zw));
 	c = pow((ojo.X - e->centro.Xw), 2) + pow((ojo.Y - e->centro.Yw), 2) + pow((ojo.Z - e->centro.Zw), 2) - pow((e->radio), 2);
-	//printf("b = %Lf\n", b);
-	//printf("c = %Lf\n", c);
 
 	dis = calcularDiscriminante(1,b,c);
-	//printf("dis = %Lf\n", dis);
 
 	if(dis < 0){
 		t = -1;
-		//printf("discriminante negativo PUTO!!\n");
 	}else{
 		t1 = (-b + sqrt(dis))/2;
 		t2 = (-b - sqrt(dis))/2;
@@ -203,16 +199,6 @@ INTERSECCION First_Intersection(){
   		i++;
   	}
   	interseccion.tmin = tmin;
-	/*para todo objeto en la escena
-	{
-		calcular intersección entre rayo y objeto;
-		si hay intersecciones y la distancia al objeto < tmin
-		{
-			tmin = distancia a interseccion;
-			interseccion = interseccion con objeto;
-		}
-	}g
-	*/
 	return interseccion;
 }
 
@@ -261,13 +247,9 @@ int main(int argc, char** argv)
 
 	for(i = 0; i < Hres; i++){
 		for(j = 0; j < Vres; j++){
-	//for(i = 400; i <500; i++){
-	//	for(j =499; j <500; j++){
 			punto3D.Xw = ((i + 1/2)*(P.Xmax - P.Xmin) / Hres) + P.Xmin;
 			punto3D.Yw = ((j + 1/2)*(P.Ymax - P.Ymin) / Vres) + P.Ymin;
 			punto3D.Zw = 0.0;
-			//printf("Xw = %Lf\n", Xw);
-			//printf("Yw = %Lf\n", Yw);
 			
 			L = sqrt(pow((punto3D.Xw - ojo.X), 2)+pow((punto3D.Yw - ojo.Y), 2)+pow((punto3D.Zw - ojo.Z), 2));
 			vDir.X = (punto3D.Xw - ojo.X) / L;
@@ -277,13 +259,6 @@ int main(int argc, char** argv)
 			color = De_que_color(ojo,vDir);
 
 			framebuffer[i][j] = color;
-			//framebuffer[500][500] = color;
-			/*
-			printf("i = %d \n j = %d \n", i, j);
-			printf("L = %Lf \n", L);
-			printf("punto3D.Xw = %Lf\n punto3D.Yw = %Lf\n punto3D.Zw = %Lf\n ", punto3D.Xw, punto3D.Yw, punto3D.Zw);
-			printf("vDir.X = %Lf\n vDir.Y = %Lf\n vDir.Z = %Lf\n ", vDir.X, vDir.Y, vDir.Z);
-			printf("----------------------\n");*/
 		}
 	}
 
@@ -294,38 +269,6 @@ int main(int argc, char** argv)
 			printf("framebuffer[%d][%d].b = %f;\n", i,j,framebuffer[i][j].b);
 		}
 	}	
-	//SaveImage(framebuffer);
-
-	//PRUEBA PUTOOOOOOO!!! 
-/*	ojo.X = -19.84155;
-	ojo.Y = 6.5;
-	ojo.Z = -3.23439;
-	//Radio = 6 y centro = (4.0, 0.0, 4.0)
-	vDir.X = 0.982602;
-	vDir.Y = -0.147390;
-	vDir.Z = 0.112999;
-*/
-	/*
-	struct OBJETO *p;
-	p = objetos;
-  	while (p->sig != NULL){
-  		printf("%f\n", interseccionEsfera(p->p));
-    	p = p->sig;
-  	}
-  	printf("%f\n", interseccionEsfera(p->p));*/
-
-
-	//PRUEBA de que si se insertan bn los valores
-	/*struct OBJETO *ptr, *ptr2, *ptr3;
-	ptr = objetos->sig;
-	ptr2 = ptr->sig;
-	ptr3 = ptr2->sig;
-
-	printf("radio 1 = %f\n", ((struct ESFERA *)objetos->p)->radio);
-	printf("radio 2 = %f\n", ((struct ESFERA *)ptr->p)->radio);
-	printf("radio 3 = %f\n", ((struct ESFERA *)ptr2->p)->radio);*/
-	//SaveImage(framebuffer);
-
 	
 
 }
