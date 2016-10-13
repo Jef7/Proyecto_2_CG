@@ -1,5 +1,5 @@
-#define Hres 1024
-#define Vres 1024
+#define Hres 200
+#define Vres 200
 
 typedef struct {
   float Xmax;
@@ -18,21 +18,19 @@ typedef struct {
 
 
 typedef struct {
-  double Xw;
-  double Yw;
-  double Zw;
+  long double Xw;
+  long double Yw;
+  long double Zw;
 } PUNTO3D;
 
 typedef struct {
-  double X;
-  double Y;
-  double Z;
+  long double X;
+  long double Y;
+  long double Z;
 } VECTOR;
 
 typedef struct {
-
-	float t;
-	
-	
+	struct OBJETO *objeto;
+  long double tmin;
 }INTERSECCION;
 
