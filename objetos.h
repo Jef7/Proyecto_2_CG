@@ -3,6 +3,8 @@ struct OBJETO {
   	COLOR color;
   	void *p;
   	struct OBJETO *sig;
+	// intersecciones 	// retorna intersecciones positiva mas pequena
+	// normal		//retorna Vector normal	 
 };
 
 struct ESFERA{
