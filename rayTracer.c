@@ -1,4 +1,4 @@
-#include "rayTracing.h"
+#include "rayTracer.h"
 #include "objetos.h"
 #include <math.h>
 #include <malloc.h>
@@ -10,7 +10,7 @@ PUNTO3D punto3D;
 VECTOR vDir;
 PANTALLA P;
 VECTOR ojo;
-struct OBJETO *objeto;
+struct OBJETO *objetos;
 
 COLOR De_que_color();
 INTERSECCION * First_Intersection();
@@ -70,11 +70,11 @@ long double ProductoPunto(VECTOR a, VECTOR b){
 }
 
 
-int longitudObjetos(struct OBJETO *objeto){
+int longitudObjetos(struct OBJETO *objetos){
 	struct OBJETO *o;
 	int n;
 	n = 0;
-	o = objeto;
+	o = objetos;
 	while(o != NULL){
 		n++;
 		o = o-> sig;
@@ -87,37 +87,71 @@ struct OBJETO *creanodo(void) {
   return (struct OBJETO *) malloc(sizeof(struct OBJETO));
 }
 
-struct OBJETO *insertafinal(struct OBJETO *objeto) {
-  struct OBJETO *p,*q;
-  q = creanodo(); /* crea un nuevo nodo */
-  //q->datos = x; aqui va el código para ingresarle los datos al nuevo nodo
-  q->sig = NULL;
-  if (objeto == NULL)
-    return q;
-  /* la OBJETO argumento no es vacía. Situarse en el último */
-  p = objeto;
-  while (p->sig != NULL)
-    p = p->sig;
-  p->sig = q;
-  return objeto;
+struct OBJETO *insertafinal(struct OBJETO *lista, struct OBJETO *q) {
+  	struct OBJETO *p;
+  	q->sig = NULL;
+  	if (lista == NULL){
+    	return q;
+  	}
+  	/* la OBJETO argumento no es vacía. Situarse en el último */
+	else{
+	  	p = lista;
+	  	//if(p->sig == NULL){printf("es nulo\n");}else{printf("no es nulo\n");}
+	  	while (p->sig != NULL){
+	    	p = p->sig;
+	  	}
+	  	p->sig = q;
+	  	return lista;
+	}
 }
 
 //método para iniciar objetos de prueba
-struct OBJETO *iniciarOjectosP(struct OBJETO *objeto){
-	struct OBJETO *q;
-  	q = creanodo();
-  	q->color.r = 1.0;
-  	q->color.g = 0.0;
-  	q->color.b = 0.0;
-  	q->color.b = 0.0;
-  	q->centro.Xw = 4.0;
-  	q->centro.Yw = 0.0;
-  	q->centro.Zw = 4.0;
-  	q->radio = 6;
-  	q->sig = NULL;
-  	objeto = q;
+void iniciarOjectosP(){
+	struct OBJETO *ptr1, *ptr2, *ptr3;
+	struct ESFERA *e1, *e2, *e3;
 
-  	return objeto;
+	e1 = (struct ESFERA*) malloc(sizeof(struct ESFERA));
+	e2 = (struct ESFERA*) malloc(sizeof(struct ESFERA));
+	e3 = (struct ESFERA*) malloc(sizeof(struct ESFERA));
+
+  	ptr1 = creanodo();
+  	ptr1->color.r = 1.0;
+  	ptr1->color.g = 0.0;
+  	ptr1->color.b = 0.0;
+  	e1->centro.Xw = 4.0;
+  	e1->centro.Yw = 0.0;
+  	e1->centro.Zw = 4.0;
+  	e1->radio = 6.0;
+ 		
+  	ptr1->p = e1;
+
+  	objetos = insertafinal(objetos, ptr1);
+  	
+  	ptr2 = creanodo();
+  	ptr2->color.r = 0.0;
+  	ptr2->color.g = 1.0;
+  	ptr2->color.b = 0.0;
+  	e2->centro.Xw = 4.0;
+  	e2->centro.Yw = 0.0;
+  	e2->centro.Zw = 4.0;
+  	e2->radio = 10.0;
+ 		
+  	ptr2->p = e2;
+
+  	objetos = insertafinal(objetos, ptr2);
+
+  	ptr3 = creanodo();
+  	ptr3->color.r = 0.0;
+  	ptr3->color.g = 0.0;
+  	ptr3->color.b = 1.0;
+  	e3->centro.Xw = 4.0;
+  	e3->centro.Yw = 0.0;
+  	e3->centro.Zw = 4.0;
+  	e3->radio = 3.0;
+ 		
+  	ptr3->p = e3;
+
+  	objetos = insertafinal(objetos, ptr3);
   	
 }
 
@@ -125,7 +159,7 @@ int main(int argc, char** argv)
 {
 	int i, j;
 	long double Xw, Yw, Zw, L, Xd ,Yd ,Zd;
-	objeto = NULL;
+	objetos = NULL;
 
 	//datos de prueba
 	P.Xmax = 10.0;
@@ -159,7 +193,7 @@ int main(int argc, char** argv)
 	    }
 	}
 
-	objeto = iniciarOjectosP(objeto);
+	iniciarOjectosP();
 
 	for(i = 0; i < Hres; i++){
 		for(j = 0; j < Vres; j++){
@@ -180,7 +214,20 @@ int main(int argc, char** argv)
 			framebuffer[i][j] = color;
 		}
 	}
-
 	//SaveImage(framebuffer);
+
+
+	//PRUEBA de que si se insertan bn los valores
+	struct OBJETO *ptr, *ptr2, *ptr3;
+	ptr = objetos->sig;
+	ptr2 = ptr->sig;
+	ptr3 = ptr2->sig;
+
+	printf("radio 1 = %f\n", ((struct ESFERA *)objetos->p)->radio);
+	printf("radio 2 = %f\n", ((struct ESFERA *)ptr->p)->radio);
+	printf("radio 3 = %f\n", ((struct ESFERA *)ptr2->p)->radio);
+	//SaveImage(framebuffer);
+
+	
 
 }

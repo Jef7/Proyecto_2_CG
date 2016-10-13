@@ -30,6 +30,9 @@ typedef struct {
 } VECTOR;
 
 typedef struct {
+
+	float t;
+	
 	
 }INTERSECCION;
 
